@@ -12,6 +12,9 @@ import { Entypo } from "@expo/vector-icons";
 const CreateScreen = ({ navigation }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const { addBlogPost } = useContext(Context);
+
   return (
     <View>
       <Text style={styles.label}>Title:</Text>
@@ -27,7 +30,14 @@ const CreateScreen = ({ navigation }) => {
         onChangeText={text => setContent(text)}
       />
 
-      <TouchableOpacity style={styles.addIcon}>
+      <TouchableOpacity
+        style={styles.addIcon}
+        onPress={() =>
+          addBlogPost(title, content, () => {
+            navigation.navigate("Index");
+          })
+        }
+      >
         <Entypo name="add-to-list" size={25} />
       </TouchableOpacity>
     </View>

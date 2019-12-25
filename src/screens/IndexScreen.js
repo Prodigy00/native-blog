@@ -9,7 +9,7 @@ import {
 import { Context } from "../context/BlogContext";
 import { Feather, AntDesign } from "@expo/vector-icons";
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+  const { state, deleteBlogPost } = useContext(Context);
 
   const renderItem = ({ item }) => {
     return (
@@ -30,9 +30,9 @@ const IndexScreen = ({ navigation }) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.buttonStyle} onPress={addBlogPost}>
+      {/* <TouchableOpacity style={styles.buttonStyle} onPress={addBlogPost}>
         <AntDesign style={styles.icon} name="addfile" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.title}
