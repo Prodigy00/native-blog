@@ -4,32 +4,35 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Button,
   TouchableOpacity
 } from "react-native";
 import { Context } from "../context/BlogContext";
 import { Feather, AntDesign } from "@expo/vector-icons";
 const IndexScreen = () => {
-  const { state, addBlogPost } = useContext(Context);
+  const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.row}>
+        <Text style={styles.title}>
+          {item.title} - {item.id}
+        </Text>
+        <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+          <Feather style={styles.icon} name="trash-2" />
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   return (
     <View>
-      {/* <Button title="Add Post" onPress={addBlogPost} /> */}
       <TouchableOpacity style={styles.buttonStyle} onPress={addBlogPost}>
-        {/* <Text style={styles.buttonTitle}>ADD POST</Text> */}
         <AntDesign style={styles.icon} name="addfile" />
       </TouchableOpacity>
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.title}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.row}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Feather style={styles.icon} name="trash-2" />
-            </View>
-          );
-        }}
+        renderItem={renderItem}
       />
     </View>
   );
