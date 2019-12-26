@@ -15,6 +15,12 @@ const CreateScreen = ({ navigation }) => {
   );
 };
 
+BlogPostForm.defaultProps = {
+  initialValues: {
+    title: "",
+    content: ""
+  }
+};
 const styles = StyleSheet.create({});
 
 export default CreateScreen;
