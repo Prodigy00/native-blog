@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-const BlogPostForm = () => {
+const BlogPostForm = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -26,7 +26,10 @@ const BlogPostForm = () => {
         onChangeText={text => setContent(text)}
       />
 
-      <TouchableOpacity style={styles.addIcon} onPress={() => {}}>
+      <TouchableOpacity
+        style={styles.addIcon}
+        onPress={() => onSubmit(title, content)}
+      >
         <Entypo name="add-to-list" size={25} />
       </TouchableOpacity>
     </View>
