@@ -37,8 +37,10 @@ const editBlogPost = dispatch => (id, title, content, callback) => {
   callback ? callback() : null;
 };
 
-const deleteBlogPost = dispatch => id =>
+const deleteBlogPost = dispatch => async id => {
+  await jsonServer.delete(`blogposts/${id}`);
   dispatch({ type: DELETE_BLOG_POST, payload: id });
+};
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
