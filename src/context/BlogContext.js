@@ -2,6 +2,7 @@ import createDataContext from "./createDataContext";
 
 const ADD_BLOG_POST = "add_blog_post";
 const DELETE_BLOG_POST = "delete_blog_post";
+const EDIT_BLOG_POST = "edit_blog_post";
 
 // reducer
 const blogReducer = (state, action) => {
@@ -15,6 +16,10 @@ const blogReducer = (state, action) => {
           content: action.payload.content
         }
       ];
+    case EDIT_BLOG_POST:
+      return state.map(blogPost => {
+        return blogPost.id === action.payload.id ? action.payload : blogPost;
+      });
     case DELETE_BLOG_POST:
       return state.filter(blogPost => blogPost.id !== action.payload);
     default:
@@ -27,11 +32,15 @@ const addBlogPost = dispatch => (title, content, callback) => {
   dispatch({ type: ADD_BLOG_POST, payload: { title, content } });
   callback();
 };
+
+const editBlogPost = dispatch => (id, title, content) =>
+  dispatch({ type: EDIT_BLOG_POST, payload: { id, title, content } });
+
 const deleteBlogPost = dispatch => id =>
   dispatch({ type: DELETE_BLOG_POST, payload: id });
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost },
+  { addBlogPost, deleteBlogPost, editBlogPost },
   [{ title: "TEST POST", content: "TEST CONTENT", id: 1 }] //initial state to enhance testing
 );
