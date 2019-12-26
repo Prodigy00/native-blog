@@ -32,7 +32,8 @@ const addBlogPost = dispatch => async (title, content, callback) => {
   callback ? callback() : null;
 };
 
-const editBlogPost = dispatch => (id, title, content, callback) => {
+const editBlogPost = dispatch => async (id, title, content, callback) => {
+  await jsonServer.put(`/blogposts/${id}`, { title, content });
   dispatch({ type: EDIT_BLOG_POST, payload: { id, title, content } });
   callback ? callback() : null;
 };
