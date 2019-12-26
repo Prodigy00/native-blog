@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,15 @@ import {
 import { Context } from "../context/BlogContext";
 import { Feather, AntDesign } from "@expo/vector-icons";
 const IndexScreen = ({ navigation }) => {
-  const { state, deleteBlogPost } = useContext(Context);
+  const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+
+  useEffect(() => {
+    getBlogPosts();
+    //add listener for index screen to fetch everytime we nav back to it
+    navigation.addListener("didFocus", () => {
+      getBlogPosts();
+    });
+  }, []);
 
   const renderItem = ({ item }) => {
     return (

@@ -4,10 +4,13 @@ import jsonServer from "../api/jsonServer";
 const ADD_BLOG_POST = "add_blog_post";
 const DELETE_BLOG_POST = "delete_blog_post";
 const EDIT_BLOG_POST = "edit_blog_post";
+const GET_BLOG_POSTS = "get_blog_posts";
 
 // reducer
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case GET_BLOG_POSTS:
+      return action.payload;
     case ADD_BLOG_POST:
       return [
         ...state,
@@ -29,8 +32,14 @@ const blogReducer = (state, action) => {
 };
 
 //actions
-const addBlogPost = dispatch => (title, content, callback) => {
-  dispatch({ type: ADD_BLOG_POST, payload: { title, content } });
+const getBlogPosts = dispatch => async () => {
+  const response = await jsonServer.get("/blogposts");
+  dispatch({ type: GET_BLOG_POSTS, payload: response.data });
+};
+const addBlogPost = dispatch => async (title, content, callback) => {
+  //   dispatch({ type: ADD_BLOG_POST, payload: { title, content } });
+
+  await jsonServer.post("/blogposts", { title, content });
   callback ? callback() : null;
 };
 
@@ -44,6 +53,6 @@ const deleteBlogPost = dispatch => id =>
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost, editBlogPost },
-  [{ title: "TEST POST", content: "TEST CONTENT", id: 1 }] //initial state to enhance testing
+  { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts },
+  []
 );
