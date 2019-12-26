@@ -14,9 +14,14 @@ const IndexScreen = ({ navigation }) => {
   useEffect(() => {
     getBlogPosts();
     //add listener for index screen to fetch everytime we nav back to it
-    navigation.addListener("didFocus", () => {
+    const listener = navigation.addListener("didFocus", () => {
       getBlogPosts();
     });
+
+    //cleanup
+    return () => {
+      listener.remove();
+    };
   }, []);
 
   const renderItem = ({ item }) => {
